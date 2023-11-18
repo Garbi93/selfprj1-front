@@ -14,8 +14,9 @@ import {
   Spinner,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -25,6 +26,10 @@ export function BoardView() {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { id } = useParams();
+
+  const toast = useToast();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -39,9 +44,23 @@ export function BoardView() {
   function handleDelete() {
     axios
       .delete("/api/board/remove/" + id)
-      .then(() => console.log("deleted"))
-      .catch(() => console.log("delete fail"))
-      .finally(() => console.log("dDone"));
+      .then(() => {
+        toast({
+          description: id + "번 게시글이 삭제되었습니다.",
+          status: "success",
+        });
+        navigate("/");
+      })
+      .catch(() => {
+        toast({
+          description: "삭제 중 문제가 발생 하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => {
+        console.log("dDone");
+        onClose();
+      });
   }
 
   return (
