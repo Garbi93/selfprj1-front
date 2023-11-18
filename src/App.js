@@ -8,6 +8,7 @@ import {
 import { BoardWrite } from "./page/BoardWrite";
 import { BoardList } from "./page/BoardList";
 import { HomeLayout } from "./layout/HomeLayout";
+import { BoardView } from "./page/BoardView";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,8 @@ const routes = createBrowserRouter(
       <Route index element={<BoardList />} />
       {/* write라는 경로로 이동하게 되면 게시물 작성 을 할 수 있게 BoardWrite component 를 작성 함 */}
       <Route path="write" element={<BoardWrite />} />
+      {/* boardList 에서 행클릭시 해당 게시글로 이동 하고 해당 게시글을 보도록 새 component 작성 */}
+      <Route path="board/:id" element={<BoardView />} />
     </Route>,
   ),
 );
