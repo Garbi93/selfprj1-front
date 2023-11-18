@@ -16,7 +16,7 @@ export function BoardWrite() {
 
   function handleBoardSave() {
     axios
-      .post("/api/board/add", { content, writer })
+      .post("/api/board/add", { content, title })
       .then(() => console.log("good"))
       .catch(() => console.log("bad"))
       .finally(() => console.log("done"));
