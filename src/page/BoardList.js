@@ -10,9 +10,13 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function BoardList() {
   const [boardList, setBoardList] = useState(null);
+
+  // 라우터 기능인 navigate 사용
+  const navigate = useNavigate();
 
   // 버튼이나 무슨 행위를 변경할때 요청 하는것이 아닌
   // 페이지가 조회 될때나 어떻한 상태가 변경 되었을 때에 변경을 원하면
@@ -43,7 +47,14 @@ export function BoardList() {
               <Spinner />
             ) : (
               boardList.map((board) => (
-                <Tr key={board.id}>
+                <Tr
+                  _hover={{
+                    cursor: "pointer",
+                    color: "orange",
+                  }}
+                  key={board.id}
+                  onClick={() => navigate("/board/" + board.id)}
+                >
                   <Td>{board.id}</Td>
                   <Td>{board.title}</Td>
                   <Td>{board.writer}</Td>
