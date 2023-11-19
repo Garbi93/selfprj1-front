@@ -1,9 +1,12 @@
 import { Box, Spinner, Table, Tbody, Td, Thead, Tr } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function UserList() {
   const [userList, setUserList] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("/api/user/list").then((response) => setUserList(response.data));
@@ -11,6 +14,13 @@ export function UserList() {
 
   if (userList === null) {
     return <Spinner />;
+  }
+
+  function handleTableRowClick(id) {
+    // /user?id={id} 이렇게 보이도록 URLSearchParams을 사용하여 인코딩 하기
+    const params = new URLSearchParams();
+    params.set("id", id);
+    navigate("/user?" + params.toString());
   }
 
   return (
@@ -29,7 +39,7 @@ export function UserList() {
         </Thead>
         <Tbody>
           {userList.map((user) => (
-            <Tr key={user.id}>
+            <Tr key={user.id} onClick={() => handleTableRowClick(user.id)}>
               <Td>{user.id}</Td>
               <Td>{user.userId}</Td>
               <Td>{user.nickName}</Td>

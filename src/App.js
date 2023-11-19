@@ -12,6 +12,7 @@ import { BoardView } from "./page/board/BoardView";
 import { BoardEdit } from "./page/board/BoardEdit";
 import { UserSignup } from "./page/user/UserSignup";
 import { UserList } from "./page/user/UserList";
+import { UserView } from "./page/user/UserView";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,8 @@ const routes = createBrowserRouter(
       <Route path="signup" element={<UserSignup />} />
       {/* 회원 목록을 볼 버튼을 클릭하면 UserList component를 불러오도록 작성 */}
       <Route path="user/list" element={<UserList />} />
+      {/* 회원 목록에서 한 row를 클릭 했을때 해당 id로 user 조회 하도록 작성 */}
+      <Route path="user" element={<UserView />} />
     </Route>,
   ),
 );
