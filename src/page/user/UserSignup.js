@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
 } from "@chakra-ui/react";
@@ -19,6 +20,15 @@ export function UserSignup() {
   const [phone, setPhone] = useState("");
 
   const navigate = useNavigate();
+
+  let signupAvailable = true;
+
+  if (password !== passwordCheck) {
+    signupAvailable = false;
+  }
+  if (password.length === 0) {
+    signupAvailable = false;
+  }
 
   // 가입 버튼 클릭시 저장 하도록
   function handleSubmit() {
@@ -63,13 +73,14 @@ export function UserSignup() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={password !== passwordCheck}>
         <FormLabel>비밀번호 확인</FormLabel>
         <Input
           value={passwordCheck}
           type="password"
           onChange={(e) => setPasswordCheck(e.target.value)}
         />
+        <FormErrorMessage>암호가 다릅니다.</FormErrorMessage>
       </FormControl>
       <FormControl>
         <FormLabel>이메일</FormLabel>
@@ -94,7 +105,11 @@ export function UserSignup() {
         </Flex>
       </FormControl>
       <Button onClick={() => navigate(-1)}>🥲취소</Button>
-      <Button onClick={handleSubmit} colorScheme={"blue"}>
+      <Button
+        onClick={handleSubmit}
+        isDisabled={!signupAvailable}
+        colorScheme={"blue"}
+      >
         가입
       </Button>
     </Box>
