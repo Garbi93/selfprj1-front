@@ -6,8 +6,9 @@ import {
   Input,
   Spinner,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { useEffect } from "react";
 import axios from "axios";
@@ -17,6 +18,10 @@ export function BoardEdit() {
 
   // /edit/:id
   const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  const toast = useToast();
 
   useEffect(() => {
     axios
@@ -62,6 +67,17 @@ export function BoardEdit() {
         <Input value={board.writer} readOnly />
       </FormControl>
       <Button colorScheme="blue">저장</Button>
+      <Button
+        onClick={() => {
+          navigate(-1);
+          toast({
+            description: "글 수정을 취소 하셧습니다.",
+            colorScheme: "yellow",
+          });
+        }}
+      >
+        취소
+      </Button>
     </Box>
   );
 }
