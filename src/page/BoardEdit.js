@@ -4,8 +4,16 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
   Textarea,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,6 +30,9 @@ export function BoardEdit() {
   const navigate = useNavigate();
 
   const toast = useToast();
+
+  // chakra UI에서 modal 사용
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
     axios
@@ -57,7 +68,7 @@ export function BoardEdit() {
           });
         }
       })
-      .finally(() => console.log("글 저장 기능 끝"));
+      .finally(() => onClose());
   }
 
   return (
@@ -93,7 +104,7 @@ export function BoardEdit() {
         <FormLabel>작성자</FormLabel>
         <Input value={board.writer} readOnly />
       </FormControl>
-      <Button onClick={handleSubmit} colorScheme="blue">
+      <Button onClick={onOpen} colorScheme="blue">
         저장
       </Button>
       <Button
@@ -107,6 +118,22 @@ export function BoardEdit() {
       >
         취소
       </Button>
+
+      {/* 수정 후 저장 모달 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>수정 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>수정 하시겠습니까?</ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>닫기</Button>
+            <Button onClick={handleSubmit} colorScheme={"green"}>
+              저장
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
