@@ -63,8 +63,21 @@ export function UserSignup() {
         email,
         phone,
       })
-      .then(() => console.log("성공"))
-      .catch(() => console.log("실패"))
+      .then(() => {
+        toast({
+          description: "가입이 완료되셨습니다.",
+          status: "success",
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          toast({
+            description: "모든 정보를 입력해주셔야 합니다.",
+            colorScheme: "orange",
+          });
+        }
+      })
       .catch(() => console.log("done"));
   }
 
