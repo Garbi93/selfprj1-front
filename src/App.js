@@ -9,6 +9,7 @@ import { BoardWrite } from "./page/BoardWrite";
 import { BoardList } from "./page/BoardList";
 import { HomeLayout } from "./layout/HomeLayout";
 import { BoardView } from "./page/BoardView";
+import { BoardEdit } from "./page/BoardEdit";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,8 @@ const routes = createBrowserRouter(
       <Route path="write" element={<BoardWrite />} />
       {/* boardList 에서 행클릭시 해당 게시글로 이동 하고 해당 게시글을 보도록 새 component 작성 */}
       <Route path="board/:id" element={<BoardView />} />
+      {/* boardView 에서 수정 버튼 클릭시 새로운 페이지에 수정 내용 입력 하고 저장 시키는 새로운 component 작성 */}
+      <Route path="edit/:id" element={<BoardEdit />} />
     </Route>,
   ),
 );
