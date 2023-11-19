@@ -33,6 +33,26 @@ export function BoardEdit() {
     return <Spinner />;
   }
 
+  // 글 수정 한것을 완료 했으면 저장 하는것
+  function handleSubmit() {
+    axios
+      .put("/api/board/edit", board)
+      .then(() => {
+        navigate(-1);
+        toast({
+          description: { id } + "번 글이 수정 되었습니다.",
+          status: "success",
+        });
+      })
+      .catch(() =>
+        toast({
+          description: { id } + "번 글 수정중 문제가 발생하였습니다.",
+          status: "error",
+        }),
+      )
+      .finally(() => console.log("글 저장 기능 끝"));
+  }
+
   return (
     <Box>
       <h1>{id}번 게시물 수정</h1>
@@ -66,7 +86,9 @@ export function BoardEdit() {
         <FormLabel>작성자</FormLabel>
         <Input value={board.writer} readOnly />
       </FormControl>
-      <Button colorScheme="blue">저장</Button>
+      <Button onClick={handleSubmit} colorScheme="blue">
+        저장
+      </Button>
       <Button
         onClick={() => {
           navigate(-1);
