@@ -20,6 +20,9 @@ export function UserSignup() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [userIdAvail, setUserIdAvail] = useState(false);
+  const [emailAvail, setEmailAvail] = useState(false);
+  const [nickNameAvail, setNickNameAvail] = useState(false);
+  const [phoneAvail, setPhoneAvail] = useState(false);
 
   const toast = useToast();
 
@@ -35,6 +38,18 @@ export function UserSignup() {
   }
 
   if (userIdAvail === false) {
+    signupAvailable = false;
+  }
+
+  if (emailAvail === false) {
+    signupAvailable = false;
+  }
+
+  if (nickNameAvail === false) {
+    signupAvailable = false;
+  }
+
+  if (phoneAvail === false) {
     signupAvailable = false;
   }
 
@@ -83,6 +98,81 @@ export function UserSignup() {
       });
   }
 
+  function handleNickNameCheck() {
+    const searchParam = new URLSearchParams();
+    searchParam.set("nickName", nickName);
+
+    axios
+      .get("/api/user/check?" + searchParam.toString())
+      .then(() => {
+        toast({
+          description: "중복된 닉네임 입니다.",
+          status: "error",
+        });
+        setNickNameAvail(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          toast({
+            description: "사용가능한 닉네입 입니다.",
+            status: "success",
+          });
+          setNickNameAvail(true);
+        }
+      })
+      .finally(() => console.log("done"));
+  }
+
+  function handleEmailCheck() {
+    const searchParam = new URLSearchParams();
+    searchParam.set("email", email);
+
+    axios
+      .get("/api/user/check?" + searchParam.toString())
+      .then(() => {
+        toast({
+          description: "중복된 이메일 입니다.",
+          status: "error",
+        });
+        setEmailAvail(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          toast({
+            description: "사용가능한 이메일 입니다.",
+            status: "success",
+          });
+          setEmailAvail(true);
+        }
+      })
+      .finally(() => console.log("done"));
+  }
+
+  function handlePhoneCheck() {
+    const searchParam = new URLSearchParams();
+    searchParam.set("phone", phone);
+
+    axios
+      .get("/api/user/check?" + searchParam.toString())
+      .then(() => {
+        toast({
+          description: "중복된 전화번호 입니다.",
+          status: "error",
+        });
+        setPhoneAvail(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          toast({
+            description: "사용가능한 전화번호 입니다.",
+            status: "success",
+          });
+          setPhoneAvail(true);
+        }
+      })
+      .finally(() => console.log("done"));
+  }
+
   return (
     <Box>
       <h1>회원가입</h1>
@@ -104,9 +194,12 @@ export function UserSignup() {
         <Flex>
           <Input
             value={nickName}
-            onChange={(e) => setNickName(e.target.value)}
+            onChange={(e) => {
+              setNickName(e.target.value);
+              setNickNameAvail(false);
+            }}
           />
-          <Button>중복확인</Button>
+          <Button onClick={handleNickNameCheck}>중복확인</Button>
         </Flex>
       </FormControl>
       <FormControl>
@@ -132,9 +225,12 @@ export function UserSignup() {
           <Input
             value={email}
             type="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailAvail(false);
+            }}
           />
-          <Button>중복확인</Button>
+          <Button onClick={handleEmailCheck}>중복확인</Button>
         </Flex>
       </FormControl>
       <FormControl>
@@ -143,9 +239,12 @@ export function UserSignup() {
           <Input
             value={phone}
             type="phone"
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              setPhoneAvail(false);
+            }}
           />
-          <Button>중복확인</Button>
+          <Button onClick={handlePhoneCheck}>중복확인</Button>
         </Flex>
       </FormControl>
       <Button onClick={() => navigate(-1)}>🥲취소</Button>
