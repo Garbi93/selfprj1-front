@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function UserSignup() {
-  const [id, setId] = useState("");
+  const [userId, setUserId] = useState("");
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -24,7 +24,7 @@ export function UserSignup() {
   function handleSubmit() {
     axios
       .post("/api/user/add", {
-        id,
+        userId,
         nickName,
         password,
         email,
@@ -41,7 +41,7 @@ export function UserSignup() {
       <FormControl>
         <FormLabel>아이디</FormLabel>
         <Flex>
-          <Input value={id} onChange={(e) => setId(e.target.value)} />
+          <Input value={userId} onChange={(e) => setUserId(e.target.value)} />
           <Button>중복확인</Button>
         </Flex>
       </FormControl>
