@@ -40,16 +40,23 @@ export function BoardEdit() {
       .then(() => {
         navigate(-1);
         toast({
-          description: { id } + "번 글이 수정 되었습니다.",
+          description: board.id + "번 글이 수정 되었습니다.",
           status: "success",
         });
       })
-      .catch(() =>
-        toast({
-          description: { id } + "번 글 수정중 문제가 발생하였습니다.",
-          status: "error",
-        }),
-      )
+      .catch((error) => {
+        if (error.response.data === 400) {
+          toast({
+            description: "내용이 비어있습니다.",
+            status: "error",
+          });
+        } else {
+          toast({
+            description: "수정 중 문제가 발생하였습니다.",
+            status: "error",
+          });
+        }
+      })
       .finally(() => console.log("글 저장 기능 끝"));
   }
 
