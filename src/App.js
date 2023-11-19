@@ -11,6 +11,7 @@ import { HomeLayout } from "./layout/HomeLayout";
 import { BoardView } from "./page/board/BoardView";
 import { BoardEdit } from "./page/board/BoardEdit";
 import { UserSignup } from "./page/user/UserSignup";
+import { UserList } from "./page/user/UserList";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -28,7 +29,9 @@ const routes = createBrowserRouter(
       <Route path="edit/:id" element={<BoardEdit />} />
       {/* navBar에서 signup 버튼을 클릭하면 signup 경로로 이동 요청을 하는데 이때에 백에 요청하는 Route도 작성
        그리고 프론트에 요청하는 UserSignup component도 지정 */}
-      <Route path={"signup"} element={<UserSignup />} />
+      <Route path="signup" element={<UserSignup />} />
+      {/* 회원 목록을 볼 버튼을 클릭하면 UserList component를 불러오도록 작성 */}
+      <Route path="userList" element={<UserList />} />
     </Route>,
   ),
 );
