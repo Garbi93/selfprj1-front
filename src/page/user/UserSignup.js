@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,9 @@ export function UserSignup() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [userIdAvail, setUserIdAvail] = useState(false);
+
+  const toast = useToast();
 
   const navigate = useNavigate();
 
@@ -27,6 +31,10 @@ export function UserSignup() {
     signupAvailable = false;
   }
   if (password.length === 0) {
+    signupAvailable = false;
+  }
+
+  if (userIdAvail === false) {
     signupAvailable = false;
   }
 
@@ -45,14 +53,50 @@ export function UserSignup() {
       .catch(() => console.log("done"));
   }
 
+  // 서버에 가입하려고 입력한 userId가 존재하는지 체크하도록 요청 하는 기능
+  function handleUserIdCheck() {
+    const searchParam = new URLSearchParams();
+    searchParam.set("userId", userId);
+
+    axios
+      .get("/api/user/check?" + searchParam.toString())
+      // 해당 아이디가 있으면 사용 하지 못하게
+      .then(() => {
+        toast({
+          description: "이미 사용중인 id 입니다.",
+          status: "error",
+        });
+        setUserIdAvail(false);
+      })
+      // 해당 아이디가 없으면 사용 가능
+      .catch((error) => {
+        if (error.response.status === 404) {
+          toast({
+            description: "사용가능한 id 입니다.",
+            status: "success",
+          });
+          setUserIdAvail(true);
+        }
+      })
+      .finally(() => {
+        console.log("done");
+      });
+  }
+
   return (
     <Box>
       <h1>회원가입</h1>
       <FormControl>
         <FormLabel>아이디</FormLabel>
         <Flex>
-          <Input value={userId} onChange={(e) => setUserId(e.target.value)} />
-          <Button>중복확인</Button>
+          <Input
+            value={userId}
+            onChange={(e) => {
+              setUserId(e.target.value);
+              setUserIdAvail(false);
+            }}
+          />
+          <Button onClick={handleUserIdCheck}>중복확인</Button>
         </Flex>
       </FormControl>
       <FormControl>
