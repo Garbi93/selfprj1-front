@@ -31,7 +31,7 @@ const routes = createBrowserRouter(
        그리고 프론트에 요청하는 UserSignup component도 지정 */}
       <Route path="signup" element={<UserSignup />} />
       {/* 회원 목록을 볼 버튼을 클릭하면 UserList component를 불러오도록 작성 */}
-      <Route path="userList" element={<UserList />} />
+      <Route path="user/list" element={<UserList />} />
     </Route>,
   ),
 );
