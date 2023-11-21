@@ -16,13 +16,6 @@ export function UserList() {
     return <Spinner />;
   }
 
-  function handleTableRowClick(id) {
-    // /user?id={id} 이렇게 보이도록 URLSearchParams을 사용하여 인코딩 하기
-    const params = new URLSearchParams();
-    params.set("id", id);
-    navigate("/user?" + params.toString());
-  }
-
   return (
     <Box>
       <Table>
@@ -39,7 +32,11 @@ export function UserList() {
         </Thead>
         <Tbody>
           {userList.map((user) => (
-            <Tr key={user.id} onClick={() => handleTableRowClick(user.id)}>
+            <Tr
+              _hover={{ cursor: "pointer", color: "green" }}
+              key={user.id}
+              onClick={() => navigate("/user/" + user.id)}
+            >
               <Td>{user.id}</Td>
               <Td>{user.userId}</Td>
               <Td>{user.nickName}</Td>

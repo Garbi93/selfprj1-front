@@ -34,7 +34,7 @@ const routes = createBrowserRouter(
       {/* 회원 목록을 볼 버튼을 클릭하면 UserList component를 불러오도록 작성 */}
       <Route path="user/list" element={<UserList />} />
       {/* 회원 목록에서 한 row를 클릭 했을때 해당 id로 user 조회 하도록 작성 */}
-      <Route path="user" element={<UserView />} />
+      <Route path="user/:id" element={<UserView />} />
     </Route>,
   ),
 );
