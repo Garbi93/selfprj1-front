@@ -35,7 +35,7 @@ export function UserList() {
             <Tr
               _hover={{ cursor: "pointer", color: "green" }}
               key={user.id}
-              onClick={() => navigate("/user/" + user.id)}
+              onClick={() => navigate("/user?id=" + user.id)}
             >
               <Td>{user.id}</Td>
               <Td>{user.userId}</Td>
